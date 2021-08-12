@@ -1,30 +1,10 @@
 from dataclasses import dataclass
 from enum import Enum
 from fastapi import APIRouter, HTTPException
-from typing import Optional, Dict, Any, Callable
+from typing import Optional, Dict, Any, Callable, List
 import re
-"""
-permission_name as part of request??
-
-need some way to get the users principals
-
-
-input_schema == request body
-
-output_schema == response body
-"""
-
-"""
-Alternative design
-
-Method classes for each type
-
-items specified in the url that feature in the input schema get put into the positional parameters
-else fail
-
-
-
-"""
+from modules.fastapi_tools import replace_arg
+from pydantic import create_model
 
 def inspect_resource(resource):
     methods = dict(resource._access_records)
@@ -41,10 +21,6 @@ def inspect_resource(resource):
             }
             method_dict[sub_method.name] = details
     return method_dict
-
-def get_url_positionals(url):
-    return [i[1:-1] for i in re.findall('{\w+}', url)]
-
 
 class MethodTypes(Enum):
     post = 'post'
@@ -75,18 +51,38 @@ def rename_func(newname):
 def resource_to_router(resource, **methods: MethodConfig):
     router = APIRouter()
     resource_details = inspect_resource(resource)
-    for method_name, method_config in methods.items():
+    for method_name, method_config in methods.items():      
         relevent_details = resource_details[method_config.permission_name]
         input_schema = relevent_details['input_schema']
         output_schema = relevent_details['output_schema']
         router_method = getattr(router, method_config.method_type)
         resource_method = getattr(resource, relevent_details['type_'].value)
-        def make_route_function(input_schema, method_config):
-            async def route_name(input_data: input_schema):
+        def make_route_function(method_name, input_schema, method_config, resource_method):
+            url_positionals = [i[1:-1] for i in re.findall('{\w+}', method_config.url)]
+            #Get types and remove from input_schema 
+            other_fields = {}
+            new_positionals = {}
+            for field_name, model_field in input_schema.__fields__.items():
+                if field_name not in url_positionals:
+                    if model_field.required:
+                        default_value = ...
+                    else:
+                        default_value = model_field.default
+                    other_fields[field_name] = (model_field.outer_type_, default_value)
+                else:
+                    new_positionals[field_name] = {'annotation': model_field.outer_type_}
+            
+            new_input_schema = create_model(method_name, **other_fields)
+
+            @replace_arg('input_fields', input_data = {'annotation': new_input_schema}, **new_positionals)
+            async def route_name(input_fields):
                 try:
+                    data = input_fields['input_data'].dict()
+                    input_fields.pop('input_data')
+                    new_data = {**data, **input_fields}
                     return_model = await resource_method(
                         method_config.permission_name,
-                        input_data,
+                        new_data,
                         principals = method_config.get_principals(),
                         session = None
                     )
@@ -97,7 +93,7 @@ def resource_to_router(resource, **methods: MethodConfig):
                     else:
                         raise method_config.exceptions[type(e)]
             return route_name
-        route_func = make_route_function(input_schema, method_config)
+        route_func = make_route_function(method_name, input_schema, method_config, resource_method)
         rename_func(method_name)(route_func)
         router_method(method_config.url, response_model = output_schema, status_code = method_config.status_code)(route_func)
 
