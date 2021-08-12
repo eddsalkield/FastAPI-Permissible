@@ -62,7 +62,8 @@ router = APIRouter()
 class OutputModel(BaseModel):
     output_string: str
 
-@router.post("/admin", response_model=Profile, status_code=status.HTTP_202_ACCEPTED)
+method = getattr(router, 'post')
+@method("/admin", response_model=Profile, status_code=status.HTTP_202_ACCEPTED)
 async def create_route(input_schema: Profile):
     try:
         return_model = await ProfileResource.create(
