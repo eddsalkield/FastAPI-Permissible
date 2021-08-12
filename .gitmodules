@@ -1,0 +1,3 @@
+[submodule "modules/permissible"]
+	path = modules/permissible
+	url = git@github.com:eddsalkield/permissible.git
