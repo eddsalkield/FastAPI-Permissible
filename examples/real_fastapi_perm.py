@@ -1,14 +1,9 @@
 from pydantic import BaseModel
-from typing import Callable, Generator, Optional, Type
-from contextlib import contextmanager
-
 from permissible import CRUDResource, PrintCRUDBackend, \
         Create, Read, Update, Delete, Action, Permission, Principal
 from permissible.permissions import UnauthorisedError
-import asyncio
-from fastapi import FastAPI, APIRouter, status, HTTPException
-from pydantic import BaseModel
-from fastapi_permissible import inspect_resource, resource_to_router, MethodConfig
+from fastapi import FastAPI, status, HTTPException
+from fastapi_permissible import resource_to_router, MethodConfig
 
 class Profile(BaseModel):
     """
@@ -63,10 +58,6 @@ def get_user_principals():
 
 
 exceptions = {
-    ValueError: HTTPException(
-        status_code=status.HTTP_400_BAD_REQUEST,
-        detail="ValueError",
-    ),
     UnauthorisedError: HTTPException(
         status_code=status.HTTP_403_FORBIDDEN,
         detail="Unauthorised",
