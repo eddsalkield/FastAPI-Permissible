@@ -74,15 +74,21 @@ def resource_to_router(resource, **methods: MethodConfig):
                     other_fields[field_name] = (model_field.outer_type_, default_value)
                 else:
                     new_positionals[field_name] = {'annotation': model_field.outer_type_}
-            
-            new_input_schema = create_model(method_name, **other_fields)
+            if other_fields == {}:
+                args_to_replace = new_positionals
+            else:
+                new_input_schema = create_model(method_name, **other_fields)
+                args_to_replace = {'input_data': {'annotation': new_input_schema}, **new_positionals}
 
-            @replace_arg('input_fields', input_data = {'annotation': new_input_schema}, **new_positionals)
+            @replace_arg('input_fields', **args_to_replace)
             async def route_name(input_fields):
                 try:
-                    data = input_fields['input_data'].dict()
-                    input_fields.pop('input_data')
-                    new_data = {**data, **input_fields}
+                    if 'input_data' in input_fields:
+                        data = input_fields['input_data'].dict()
+                        input_fields.pop('input_data')
+                        new_data = {**data, **input_fields}
+                    else:
+                        new_data = input_fields
                     return_model = await resource_method(
                         method_config.permission_name,
                         new_data,

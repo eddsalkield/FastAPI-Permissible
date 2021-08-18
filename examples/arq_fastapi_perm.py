@@ -1,5 +1,5 @@
 from arq import create_pool
-from permissible.crud.backends.arq import ARQBackend, CreateSchema, ARQSessionMaker, GetSchema, ArqSessionAbortFailure, JobPromiseModel, JobModel, GetModel, PoolJobCompleted
+from permissible.crud.backends.arq import ARQBackend, CreateSchema, ARQSessionMaker, GetSchema, ArqSessionAbortFailure, JobPromiseModel, JobModel, GetModel, PoolJobCompleted, PoolJobNotFound, UpdateSchema
 import asyncio
 from permissible import CRUDResource, Create, Read, Update, Delete, Permission, Action, Principal
 from arq.connections import RedisSettings
@@ -28,6 +28,14 @@ exceptions = {
     UnauthorisedError: HTTPException(
         status_code=status.HTTP_403_FORBIDDEN,
         detail="Unauthorised",
+    ),
+    PoolJobNotFound: HTTPException(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        detail="Pool job not found"
+    ),
+    PoolJobCompleted: HTTPException(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        detail="Pool job already completed"
     )
 }
 
@@ -61,15 +69,30 @@ async def app_startup():
         backend=backend
     )
 
-    
     router = resource_to_router(
         ProfileResource,
         admin_create = MethodConfig(
             permission_name = 'admin_create', 
-            url = '/admin_create', 
+            url = '/admin_create/{function}', 
             method_type = 'put', 
             get_principals = get_admin_principals, 
             exceptions = exceptions, 
+            status_code = status.HTTP_202_ACCEPTED
+        ),
+        admin_read = MethodConfig(
+            permission_name = 'admin_read',
+            url = '/admin_read/{job_id}', 
+            method_type = 'post', 
+            get_principals = get_admin_principals, 
+            exceptions = exceptions, 
+            status_code = status.HTTP_202_ACCEPTED
+        ),
+        admin_delete = MethodConfig(
+            permission_name = 'admin_delete',
+            url = '/admin_delete',
+            method_type = 'delete',
+            get_principals = get_admin_principals,
+            exceptions = exceptions,
             status_code = status.HTTP_202_ACCEPTED
         )
     )
