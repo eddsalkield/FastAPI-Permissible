@@ -245,7 +245,7 @@ sqlalchemy = ["SQLAlchemy", "sqlalchemy-filters", "pydantic-sqlalchemy"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "1fdf0e8b3800c8a2cc4056039b1d93026dc681694f12d5d08518c8bb7dc8a16c"
+content-hash = "8d8ef43ac5188ccda9d4f71469f3e48933223086f7b1ffa271cb97bac6f9175f"
 
 [metadata.files]
 aioredis = [
