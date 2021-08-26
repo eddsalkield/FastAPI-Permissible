@@ -1,22 +1,22 @@
 [[package]]
-category = "main"
-description = "asyncio (PEP 3156) Redis support"
 name = "aioredis"
+version = "1.3.1"
+description = "asyncio (PEP 3156) Redis support"
+category = "main"
 optional = false
 python-versions = "*"
-version = "1.3.1"
 
 [package.dependencies]
 async-timeout = "*"
 hiredis = "*"
 
 [[package]]
-category = "main"
-description = "Job queues in python with asyncio and redis"
 name = "arq"
-optional = false
-python-versions = ">=3.6"
 version = "0.21"
+description = "Job queues in python with asyncio and redis"
+category = "main"
+optional = true
+python-versions = ">=3.6"
 
 [package.dependencies]
 aioredis = ">=1.1.0"
@@ -27,123 +27,113 @@ pydantic = ">=1"
 watch = ["watchgod (>=0.4)"]
 
 [[package]]
-category = "main"
-description = "ASGI specs, helper code, and adapters"
 name = "asgiref"
+version = "3.4.1"
+description = "ASGI specs, helper code, and adapters"
+category = "main"
 optional = false
 python-versions = ">=3.6"
-version = "3.4.1"
 
 [package.extras]
 tests = ["pytest", "pytest-asyncio", "mypy (>=0.800)"]
 
 [[package]]
-category = "main"
-description = "Timeout context manager for asyncio programs"
 name = "async-timeout"
+version = "3.0.1"
+description = "Timeout context manager for asyncio programs"
+category = "main"
 optional = false
 python-versions = ">=3.5.3"
-version = "3.0.1"
 
 [[package]]
-category = "main"
-description = "Composable command line interface toolkit"
 name = "click"
+version = "8.0.1"
+description = "Composable command line interface toolkit"
+category = "main"
 optional = false
 python-versions = ">=3.6"
-version = "8.0.1"
 
 [package.dependencies]
-colorama = "*"
+colorama = {version = "*", markers = "platform_system == \"Windows\""}
 
 [[package]]
-category = "main"
-description = "Cross-platform colored terminal text."
-marker = "platform_system == \"Windows\""
 name = "colorama"
+version = "0.4.4"
+description = "Cross-platform colored terminal text."
+category = "main"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
-version = "0.4.4"
 
 [[package]]
-category = "main"
-description = "FastAPI framework, high performance, easy to learn, fast to code, ready for production"
 name = "fastapi"
+version = "0.68.0"
+description = "FastAPI framework, high performance, easy to learn, fast to code, ready for production"
+category = "main"
 optional = false
 python-versions = ">=3.6"
-version = "0.68.0"
 
 [package.dependencies]
 pydantic = ">=1.6.2,<1.7 || >1.7,<1.7.1 || >1.7.1,<1.7.2 || >1.7.2,<1.7.3 || >1.7.3,<1.8 || >1.8,<1.8.1 || >1.8.1,<2.0.0"
 starlette = "0.14.2"
 
 [package.extras]
-all = ["requests (>=2.24.0,<3.0.0)", "aiofiles (>=0.5.0,<0.6.0)", "jinja2 (>=2.11.2,<3.0.0)", "python-multipart (>=0.0.5,<0.0.6)", "itsdangerous (>=1.1.0,<2.0.0)", "pyyaml (>=5.3.1,<6.0.0)", "graphene (>=2.1.8,<3.0.0)", "ujson (>=4.0.1,<5.0.0)", "orjson (>=3.2.1,<4.0.0)", "email_validator (>=1.1.1,<2.0.0)", "uvicorn (>=0.12.0,<0.14.0)", "async_exit_stack (>=1.0.1,<2.0.0)", "async_generator (>=1.10,<2.0.0)"]
-dev = ["python-jose (>=3.3.0,<4.0.0)", "passlib (>=1.7.2,<2.0.0)", "autoflake (>=1.3.1,<2.0.0)", "flake8 (>=3.8.3,<4.0.0)", "uvicorn (>=0.12.0,<0.14.0)", "graphene (>=2.1.8,<3.0.0)"]
+all = ["requests (>=2.24.0,<3.0.0)", "aiofiles (>=0.5.0,<0.6.0)", "jinja2 (>=2.11.2,<3.0.0)", "python-multipart (>=0.0.5,<0.0.6)", "itsdangerous (>=1.1.0,<2.0.0)", "pyyaml (>=5.3.1,<6.0.0)", "graphene (>=2.1.8,<3.0.0)", "ujson (>=4.0.1,<5.0.0)", "orjson (>=3.2.1,<4.0.0)", "email_validator (>=1.1.1,<2.0.0)", "uvicorn[standard] (>=0.12.0,<0.14.0)", "async_exit_stack (>=1.0.1,<2.0.0)", "async_generator (>=1.10,<2.0.0)"]
+dev = ["python-jose[cryptography] (>=3.3.0,<4.0.0)", "passlib[bcrypt] (>=1.7.2,<2.0.0)", "autoflake (>=1.3.1,<2.0.0)", "flake8 (>=3.8.3,<4.0.0)", "uvicorn[standard] (>=0.12.0,<0.14.0)", "graphene (>=2.1.8,<3.0.0)"]
 doc = ["mkdocs (>=1.1.2,<2.0.0)", "mkdocs-material (>=7.1.9,<8.0.0)", "markdown-include (>=0.6.0,<0.7.0)", "mkdocs-markdownextradata-plugin (>=0.1.7,<0.2.0)", "typer-cli (>=0.0.12,<0.0.13)", "pyyaml (>=5.3.1,<6.0.0)"]
-test = ["pytest (>=6.2.4,<7.0.0)", "pytest-cov (>=2.12.0,<3.0.0)", "pytest-asyncio (>=0.14.0,<0.15.0)", "mypy (0.812)", "flake8 (>=3.8.3,<4.0.0)", "black (20.8b1)", "isort (>=5.0.6,<6.0.0)", "requests (>=2.24.0,<3.0.0)", "httpx (>=0.14.0,<0.15.0)", "email_validator (>=1.1.1,<2.0.0)", "sqlalchemy (>=1.3.18,<1.4.0)", "peewee (>=3.13.3,<4.0.0)", "databases (>=0.3.2,<0.4.0)", "orjson (>=3.2.1,<4.0.0)", "ujson (>=4.0.1,<5.0.0)", "async_exit_stack (>=1.0.1,<2.0.0)", "async_generator (>=1.10,<2.0.0)", "python-multipart (>=0.0.5,<0.0.6)", "aiofiles (>=0.5.0,<0.6.0)", "flask (>=1.1.2,<2.0.0)"]
+test = ["pytest (>=6.2.4,<7.0.0)", "pytest-cov (>=2.12.0,<3.0.0)", "pytest-asyncio (>=0.14.0,<0.15.0)", "mypy (==0.812)", "flake8 (>=3.8.3,<4.0.0)", "black (==20.8b1)", "isort (>=5.0.6,<6.0.0)", "requests (>=2.24.0,<3.0.0)", "httpx (>=0.14.0,<0.15.0)", "email_validator (>=1.1.1,<2.0.0)", "sqlalchemy (>=1.3.18,<1.4.0)", "peewee (>=3.13.3,<4.0.0)", "databases[sqlite] (>=0.3.2,<0.4.0)", "orjson (>=3.2.1,<4.0.0)", "ujson (>=4.0.1,<5.0.0)", "async_exit_stack (>=1.0.1,<2.0.0)", "async_generator (>=1.10,<2.0.0)", "python-multipart (>=0.0.5,<0.0.6)", "aiofiles (>=0.5.0,<0.6.0)", "flask (>=1.1.2,<2.0.0)"]
 
 [[package]]
-category = "main"
-description = "A pure-Python, bring-your-own-I/O implementation of HTTP/1.1"
 name = "h11"
-optional = false
-python-versions = ">=3.6"
 version = "0.12.0"
-
-[[package]]
+description = "A pure-Python, bring-your-own-I/O implementation of HTTP/1.1"
 category = "main"
-description = "Python wrapper for hiredis"
-name = "hiredis"
 optional = false
 python-versions = ">=3.6"
-version = "2.0.0"
 
 [[package]]
+name = "hiredis"
+version = "2.0.0"
+description = "Python wrapper for hiredis"
 category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[[package]]
+name = "mutate-function"
+version = "0.1.0"
 description = ""
-develop = true
+category = "main"
+optional = false
+python-versions = ">=3.9,<4.0"
+
+[[package]]
 name = "permissible"
+version = "0.1.0"
+description = ""
+category = "main"
 optional = false
 python-versions = "^3.9"
-version = "0.1.0"
+develop = false
 
 [package.dependencies]
 aioredis = "<2.0.0"
 pydantic = "^1.8.2"
 
-[package.dependencies.SQLAlchemy]
-optional = true
-version = "<=1.3.16"
-
-[package.dependencies.arq]
-optional = true
-version = "^0.21"
-
-[package.dependencies.pydantic-sqlalchemy]
-optional = true
-version = "^0.0.9"
-
-[package.dependencies.sqlalchemy-filters]
-optional = true
-version = "^0.12.0"
-
 [package.extras]
-arq = ["arq (^0.21)"]
-sqlalchemy = ["SQLAlchemy (<=1.3.16)", "sqlalchemy-filters (^0.12.0)", "pydantic-sqlalchemy (^0.0.9)"]
+sqlalchemy = ["SQLAlchemy (<=1.3.16)", "sqlalchemy-filters (>=0.12.0,<0.13.0)", "pydantic-sqlalchemy (>=0.0.9,<0.0.10)"]
+arq = ["arq (>=0.21,<0.22)"]
 
 [package.source]
-reference = ""
 type = "directory"
 url = "modules/permissible"
 
 [[package]]
-category = "main"
-description = "Data validation and settings management using python 3.6 type hinting"
 name = "pydantic"
+version = "1.8.2"
+description = "Data validation and settings management using python 3.6 type hinting"
+category = "main"
 optional = false
 python-versions = ">=3.6.1"
-version = "1.8.2"
 
 [package.dependencies]
 typing-extensions = ">=3.7.4.3"
@@ -153,35 +143,35 @@ dotenv = ["python-dotenv (>=0.10.4)"]
 email = ["email-validator (>=1.0.3)"]
 
 [[package]]
-category = "main"
-description = "Tools to convert SQLAlchemy models to Pydantic models"
 name = "pydantic-sqlalchemy"
-optional = false
-python-versions = ">=3.6,<4.0"
 version = "0.0.9"
+description = "Tools to convert SQLAlchemy models to Pydantic models"
+category = "main"
+optional = true
+python-versions = ">=3.6,<4.0"
 
 [package.dependencies]
 pydantic = ">=1.5.1,<2.0.0"
 sqlalchemy = ">=1.3.16,<2.0.0"
 
 [package.extras]
-dev = ["jupyter (>=1.0.0,<2.0.0)", "autoflake (>=1.3.1,<2.0.0)", "flake8 (>=3.7.9,<4.0.0)"]
+dev = ["jupyter[dev] (>=1.0.0,<2.0.0)", "autoflake[dev] (>=1.3.1,<2.0.0)", "flake8[dev] (>=3.7.9,<4.0.0)"]
 
 [[package]]
-category = "main"
-description = "Python 2 and 3 compatibility utilities"
 name = "six"
-optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 version = "1.16.0"
+description = "Python 2 and 3 compatibility utilities"
+category = "main"
+optional = true
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 
 [[package]]
-category = "main"
-description = "Database Abstraction Library"
 name = "sqlalchemy"
-optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 version = "1.3.16"
+description = "Database Abstraction Library"
+category = "main"
+optional = true
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [package.extras]
 mssql = ["pyodbc"]
@@ -196,12 +186,12 @@ postgresql_psycopg2cffi = ["psycopg2cffi"]
 pymysql = ["pymysql"]
 
 [[package]]
-category = "main"
-description = "A library to filter SQLAlchemy queries."
 name = "sqlalchemy-filters"
-optional = false
-python-versions = "*"
 version = "0.12.0"
+description = "A library to filter SQLAlchemy queries."
+category = "main"
+optional = true
+python-versions = "*"
 
 [package.dependencies]
 six = ">=1.10.0"
@@ -209,36 +199,36 @@ sqlalchemy = ">=1.0.16"
 
 [package.extras]
 dev = ["pytest (>=4.6.9)", "coverage (>=5.0.4,<5.1.0)", "sqlalchemy-utils (>=0.36.3,<0.37.0)", "flake8", "restructuredtext-lint", "pygments"]
-mysql = ["mysql-connector-python-rf (2.2.2)"]
-postgresql = ["psycopg2 (2.8.4)"]
+mysql = ["mysql-connector-python-rf (==2.2.2)"]
+postgresql = ["psycopg2 (==2.8.4)"]
 python2 = ["funcsigs (>=1.0.2)"]
 
 [[package]]
-category = "main"
-description = "The little ASGI library that shines."
 name = "starlette"
+version = "0.14.2"
+description = "The little ASGI library that shines."
+category = "main"
 optional = false
 python-versions = ">=3.6"
-version = "0.14.2"
 
 [package.extras]
 full = ["aiofiles", "graphene", "itsdangerous", "jinja2", "python-multipart", "pyyaml", "requests"]
 
 [[package]]
-category = "main"
-description = "Backported and Experimental Type Hints for Python 3.5+"
 name = "typing-extensions"
+version = "3.10.0.0"
+description = "Backported and Experimental Type Hints for Python 3.5+"
+category = "main"
 optional = false
 python-versions = "*"
-version = "3.10.0.0"
 
 [[package]]
-category = "main"
-description = "The lightning-fast ASGI server."
 name = "uvicorn"
+version = "0.14.0"
+description = "The lightning-fast ASGI server."
+category = "main"
 optional = false
 python-versions = "*"
-version = "0.14.0"
 
 [package.dependencies]
 asgiref = ">=3.3.4"
@@ -246,12 +236,16 @@ click = ">=7"
 h11 = ">=0.8"
 
 [package.extras]
-standard = ["websockets (>=9.1)", "httptools (>=0.2.0,<0.3.0)", "watchgod (>=0.6)", "python-dotenv (>=0.13)", "PyYAML (>=5.1)", "uvloop (>=0.14.0,<0.15.0 || >0.15.0,<0.15.1 || >0.15.1)", "colorama (>=0.4)"]
+standard = ["websockets (>=9.1)", "httptools (>=0.2.0,<0.3.0)", "watchgod (>=0.6)", "python-dotenv (>=0.13)", "PyYAML (>=5.1)", "uvloop (>=0.14.0,!=0.15.0,!=0.15.1)", "colorama (>=0.4)"]
+
+[extras]
+arq = ["arq"]
+sqlalchemy = ["SQLAlchemy", "sqlalchemy-filters", "pydantic-sqlalchemy"]
 
 [metadata]
-content-hash = "d589328e448942b0f6173f2f7d030a0780a55614460577e4cd57c9742e652866"
-lock-version = "1.0"
+lock-version = "1.1"
 python-versions = "^3.9"
+content-hash = "1fdf0e8b3800c8a2cc4056039b1d93026dc681694f12d5d08518c8bb7dc8a16c"
 
 [metadata.files]
 aioredis = [
@@ -328,6 +322,10 @@ hiredis = [
     {file = "hiredis-2.0.0-pp37-pypy37_pp73-manylinux2010_x86_64.whl", hash = "sha256:cb2126603091902767d96bcb74093bd8b14982f41809f85c9b96e519c7e1dc41"},
     {file = "hiredis-2.0.0-pp37-pypy37_pp73-win32.whl", hash = "sha256:f52010e0a44e3d8530437e7da38d11fb822acfb0d5b12e9cd5ba655509937ca0"},
     {file = "hiredis-2.0.0.tar.gz", hash = "sha256:81d6d8e39695f2c37954d1011c0480ef7cf444d4e3ae24bc5e89ee5de360139a"},
+]
+mutate-function = [
+    {file = "mutate-function-0.1.0.tar.gz", hash = "sha256:70e7995f40ae4ae86e47d8635841c8c809d15bbf104cb2c5acc42551f302a097"},
+    {file = "mutate_function-0.1.0-py3-none-any.whl", hash = "sha256:b2a0d3a5cb97e90b5721656c67e653eff48847108d707e838f349a1b21c7434a"},
 ]
 permissible = []
 pydantic = [

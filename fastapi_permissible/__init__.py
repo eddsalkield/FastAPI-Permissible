@@ -3,7 +3,7 @@ from enum import Enum
 from fastapi import APIRouter, HTTPException
 from typing import Optional, Dict, Any, Callable, List
 import re
-from modules.fastapi_tools import replace_arg
+from mutate_function import replace_arg
 from pydantic import create_model
 
 def inspect_resource(resource):
