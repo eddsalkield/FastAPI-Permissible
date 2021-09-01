@@ -12,6 +12,7 @@ from datetime import datetime
 from fastapi import FastAPI, status, HTTPException
 from fastapi_permissible import resource_to_router, MethodConfig
 from permissible.permissions import UnauthorisedError
+import asyncio
 async def test_func(ctx):
     random_3 = 2*random()
     for i in range(20000000):
@@ -41,8 +42,10 @@ exceptions = {
 
 @app.on_event("startup")
 async def app_startup():
-    data['pool'] = await create_pool()
-    data['session_maker'] = ARQSessionMaker(pool=data['pool'])
+
+    loop = asyncio.get_running_loop()
+    pool_future = loop.create_future()
+    data['session_maker'] = ARQSessionMaker(pool_future = pool_future)
 
     sessionmaker = data['session_maker']
     backend = ARQBackend(sessionmaker)
@@ -68,7 +71,7 @@ async def app_startup():
         ),
         backend=backend
     )
-
+    pool_future.set_result(await create_pool())
     router = resource_to_router(
         ProfileResource,
         admin_create = MethodConfig(
